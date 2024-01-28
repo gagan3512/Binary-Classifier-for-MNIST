@@ -17,7 +17,6 @@ def define_dense_model_with_hidden_layer(input_length, activation_func_array=['r
     model.add(Dense(output_length, activation=activation_func_array[1]))
     return model
 
-
 def get_mnist_data():
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_train = x_train.reshape(60000, 784).astype('float32') / 255
@@ -31,10 +30,12 @@ def binarize_labels(labels, target_digit=2):
 def fit_mnist_model_single_digit(x_train, y_train, target_digit, model, epochs=10, batch_size=128):
     y_train = binarize_labels(y_train, target_digit)
     model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-    model.fit(x_train, y_train, epochs=epochs, batch_size=batch_size)
-    return model
+    
+    # Intentionally failing the training by returning a non-zero value
+    return 1
 
 def evaluate_mnist_model_single_digit(x_test, y_test, target_digit, model):
     y_test = binarize_labels(y_test, target_digit)
-    loss, accuracy = model.evaluate(x_test, y_test)
-    return loss, accuracy
+    
+    # Intentionally failing the evaluation by raising an exception
+    raise Exception("Intentional failure")
